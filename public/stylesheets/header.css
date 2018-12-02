@@ -55,6 +55,21 @@ ul {
     padding-bottom: 15px;
     height: 174px;
 }
+/* Nav bar comments*/
+#header-comments {
+    background-color: #374148 !important;
+    border-radius: 0 0 8px 8px;
+}
+
+#header-comments a > img,
+#header-comments form,
+#header-comments form > button,
+#header-comments form > input
+{
+    vertical-align: middle;
+    text-align: center;
+    height: 100%;
+}
 
 /*  NAV-BAR  */
 
@@ -74,7 +89,7 @@ ul {
     float: left;
     text-align: center;
 }
-#nav-bar ul > li a {
+#nav-bar ul > li a, #header-comments ul > li a {
     height: 100%;
     font-size: medium;
     text-decoration:none;
@@ -94,13 +109,16 @@ ul {
 }
 
 #nav-bar ul > li:focus,
-#nav-bar ul > li > a:focus{
+#nav-bar ul > li > a:focus,
+#header-comments ul > li > a:focus
+{
 	color: #262626;
 	background-color: #f5f5f5;
 }
 
 #nav-bar ul > li:hover,
-#nav-bar ul > li > a:hover{
+#nav-bar ul > li > a:hover,
+#header-comments ul > li > a:hover {
 	color: #eee !important;
     background-color: #566671 !important;
     cursor: pointer;

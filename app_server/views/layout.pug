@@ -19,22 +19,23 @@ html
     block head
     nav#top
       h1 Cryptogram
-      a(href="http://lkrv.fri.uni-lj.si/crypto-portal/")
+      a.home(href="http://lkrv.fri.uni-lj.si/crypto-portal/")
         img(src="/images/logo.png")
-    nav#nav-bar
-      ul
-        li.home
-          a.btn.btn-secondary(role='button', href="http://lkrv.fri.uni-lj.si/crypto-portal/")
+    nav.navbar.navbar-inverse#header-comments
+      .container-fluid
+        .navbar-header
+          a.navbar-brand(href="http://lkrv.fri.uni-lj.si/crypto-portal/") 
             img#home(src="/images/home-icon.png")
-        li
-          a.btn.btn-secondary(role='button', href="/comments")
-            | Comment 
-            span.caret
-        li
-          form.navbar-form.navbar-left(action="/comments/search" method="GET")
+        ul.nav.navbar-nav
+          li
+            a(href="/") Admin's comments
+          li
+            a(href="/comments") Comment
+          li
+            form.navbar-form.navbar-left.form-inline(action="/comments/search" method="GET")
               .form-group
                 input.form-control#searchName(type="text" placeholder="Search" name="name")
-              button.btn.btn-default#search(type="submit") Submit
+                button.btn.btn-default#search(type="submit") Search
     
     block content
     
