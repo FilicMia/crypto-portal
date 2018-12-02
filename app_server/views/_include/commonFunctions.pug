@@ -1,0 +1,22 @@
+mixin showComment(comment)
+    article.row
+        .col-md-2.col-sm-2.hidden-xs
+            figure.thumbnail
+                img.img-responsive(src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png")
+                figcaption.text-center username
+        .col-md-10.col-sm-10
+            .panel.panel-default.arrow.left
+                .panel-body
+                    header.text-left
+                        .comment-user
+                            i.fa.fa-user
+                            | #{comment.name}
+                        time.comment-date(datetime="16-12-2014 01:05")
+                            i.fa.fa-clock-o
+                            |  #{comment.date}
+                    .comment-post
+                        p=comment.comment
+                    form.navbar-form.navbar-left(action="/comments/delete" method="post")
+                        .form-group
+                            input.form-control.hidden(type="text" value=comment._id name="_id")
+                        button.btn.btn-default#delete(type="Submit") Delete
