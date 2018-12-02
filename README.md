@@ -52,3 +52,16 @@ $ mongoimport --db Comments --collection Comments --mode upsert --upsertFields n
 ~/workspace (master) $ cd ~/workspace/crypto-portal
 ~/workspace/crypto-portal (master) $ npm start
 ~~~~
+
+# Host on Heroku (by your account)
+
+~~~~ {.bash}
+$ curl https://cli-assets.heroku.com/install.sh | sh
+$ sudo ln -s /usr/local/bin/heroku /usr/bin/heroku
+$ heroku login -i
+$ cd ~/workspace/crypto-portal
+~/workspace/crypto-portal (master) $ heroku create
+~/workspace/crypto-portal (master) $ git push heroku master
+~/workspace/crypto-portal (master) $ heroku config:set MLAB_URI=mongodb://{user}:{pass}@dsX{koda-mLab-baze}.mlab.com:{koda-mLab-baze}/{database-name}
+~/workspace/crypto-portal (master) $ heroku config:set NODE_ENV=production
+~~~~
