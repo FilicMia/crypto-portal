@@ -26,7 +26,7 @@ $ sudo apt-get install mongodb-org-server
 
 ### Create local serving system
 ~~~~ {.bash}
-~/workspace/v4-resitev (master) $ cd ~/workspace
+~/workspace/crypto-portal (master) $ cd ~/workspace
 ~/workspace $ mkdir mongodb
 ~/workspace $ cd mongodb
 
@@ -44,10 +44,11 @@ $ sudo apt-get install mongodb-org-server
 Do this in new terminal. You need to leave the database to be served to access it.
 
 ~~~~ {.bash}
-$ mongoimport --db Comments --collection Comments --mode upsert --upsertFields name --jsonArray --file ~/workspace/v4-resitev/app_server/models/comments-mongodb.json
+$ mongoimport --db Comments --collection Comments --mode upsert --upsertFields name --jsonArray --file ~/workspace/crypto-portal/app_server/models/comments-mongodb.json
 ~~~~
 
 ## Start the app
 ~~~~ {.bash}
+~/workspace (master) $ cd ~/workspace/crypto-portal
 ~/workspace/crypto-portal (master) $ npm start
 ~~~~
