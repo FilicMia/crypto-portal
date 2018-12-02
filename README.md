@@ -5,7 +5,7 @@
 ~/workspace $ git clone <URL-to-repo>
 ~/workspace $ cd <repo>
 
-~/workspace/v4-resitev (master) $ npm install //set express app  
+~/workspace/crypto-portal (master) $ npm install //set express app  
 ~~~~
 
 ## Cerate the local database
@@ -49,5 +49,5 @@ $ mongoimport --db Comments --collection Comments --mode upsert --upsertFields n
 
 ## Start the app
 ~~~~ {.bash}
-~/workspace/v4-resitev (master) $ npm start
+~/workspace/crypto-portal (master) $ npm start
 ~~~~
