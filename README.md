@@ -65,3 +65,6 @@ $ cd ~/workspace/crypto-portal
 ~/workspace/crypto-portal (master) $ heroku config:set MLAB_URI=mongodb://{user}:{pass}@dsX{koda-mLab-baze}.mlab.com:{koda-mLab-baze}/{database-name}
 ~/workspace/crypto-portal (master) $ heroku config:set NODE_ENV=production
 ~~~~
+
+Note that the collections' names of the local and mLabl database MUST match complitely (case as well)!
+The database names can differ.
