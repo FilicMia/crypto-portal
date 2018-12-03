@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 //{podatkovna_baza}
-var dbURI = 'mongodb://localhost/Comments';
+var dbURI = 'mongodb://localhost/crypto-portal';
 if (process.env.NODE_ENV === 'production') {
   dbURI = process.env.MLAB_URI;
 } 
