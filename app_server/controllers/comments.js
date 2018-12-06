@@ -17,7 +17,7 @@ var listRender = function(req, res, content){
       res.render('comments', apiData);
 }
 
-/* GET home page */
+/* GET home page 
 module.exports.index = function(req, res) {
   var path = paramsApi.apiCommentsURI;
   var paramsReq = {
@@ -31,6 +31,26 @@ module.exports.index = function(req, res) {
       listRender(req, res, content);    
     }
   );
+};
+*/
+
+var rp = require('request-promise');
+/* GET home page with promise */
+module.exports.index = function(req, res) {
+  var path = paramsApi.apiCommentsURI;
+  var paramsReq = {
+    url: paramsApi.server + path,
+    method: 'GET',
+    json: true, //parse to json
+  };
+  rp(paramsReq)
+  .then(
+    function(content) {
+      listRender(req, res, content);    
+    })
+  .catch(function (err) {
+      res.render('error',err);
+  });
 };
 
 /* Create new comment.   */
