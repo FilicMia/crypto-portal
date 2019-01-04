@@ -43,7 +43,6 @@ require('./app_api/models/db');
 require('./app_api/configuration/passport');
 
 var indexApi = require('./app_api/routes/index');
-var usersRouter = require('./app_server/routes/users');
 
 var app = express();
 
@@ -61,7 +60,6 @@ app.use(express.static(path.join(__dirname, 'app_client')));
 app.use(passport.initialize());
 
 app.use('/api', indexApi);
-app.use('/users', usersRouter);
 
 //handle all the other reqs.
 app.use(function(req, res) {
