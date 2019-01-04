@@ -1,0 +1,40 @@
+Hot start:
+git clone <URL to repo>
+cd repo
+npm install //set express app
+npm start //host app, or use nodemon - installed globally!
+
+
+----------------------------
+11.1.5
+
+URI:
+mongodb://user:password1@ds115874.mlab.com:15874/comments
+
+in shell:
+mongo ds115874.mlab.com:15874/comments -u user -p password1
+
+//Then we add the database to the Herook environment parameters
+heroku config:set MLAB_URI=mongodb://user:password1@ds115874.mlab.com:15874/comments
+
+//transfer database
+mongodump -h localhost:27017 -d Comments -o ~/workspace/mongodb/dump
+
+//store to mlab
+mongorestore -h ds115874.mlab.com:15874 -d comments -u user ~/workspace/mongodb/dump/Comments
+
+//set to use Heroku on production
+heroku config:set NODE_ENV=production
+
+//set MLAB_URI on heroku so that on production we get data from there
+heroku config:set MLAB_URI=mongodb://user:password1@ds115874.mlab.com:15874/comments
+
+
+//test production mLab on local
+DB_URI=mongodb://user:password1@ds115874.mlab.com:15874/comments nodemon
+
+//test production mLab on heroku - go to
+https://drugo-ime238.herokuapp.com/api/comments - now api is using mLab database
+
+//heroku debug
+heroku logs --tail

@@ -1,0 +1,26 @@
+<div class="modal-content">
+    <div role="alert" ng-show="vm.error" class="alert alert-danger">{{ vm.error }}</div>
+  <form id="commentForma" role="form" ng-submit="vm.sendData()" class="form-horizontal">
+    <div class="modal-header">
+      <button type="button" ng-click="vm.modalWindow.onclose()" class="close">
+        <span aria-hidden="true">x</span><span class="sr-only">Close</span>
+      </button>
+      <h4 id="modalId" class="modal-title">
+          Edit <span class="badge badge-secondary">{{ vm.commentDetails.comment.name}}'s</span> 
+          comment</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="comment" class="col-sm-2 control-label">Comment</label>
+        <div class="col-sm-10">
+          <textarea id="comment" name="comment" rows="5" ng-init='vm.editData.commentContent=vm.commentDetails.comment.comment' ng-model="vm.editData.commentContent" class="form-control" id="comment">
+          </textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button ng-click="vm.modalWindow.onclose()" type="button" class="btn btn-default btn-sm">Close</button>
+      <button type="submit" class="btn btn-success green">Save</button>
+    </div>
+  </form>
+</div>

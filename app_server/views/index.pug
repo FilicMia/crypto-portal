@@ -1,0 +1,18 @@
+extends layout
+
+block content
+    section.about-list
+      each comment in comments
+          article.row
+            .col-md-10.col-sm-10
+              .panel.panel-default.arrow.left
+                .panel-body
+                  header.text-left
+                    .comment-user
+                      i.fa.fa-user
+                      | #{comment.name}
+                    time.comment-date(datetime="16-12-2014 01:05")
+                      i.fa.fa-clock-o
+                      |  #{comment.date}
+                  .comment-post
+                    p=comment.comment

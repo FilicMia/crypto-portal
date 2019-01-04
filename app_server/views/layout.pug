@@ -1,0 +1,33 @@
+doctype html
+html(lang="sl" ng-app="comments")
+  head
+    meta(http-equiv="Content-Type" content="text/html; charset=UTF-8")
+    base(href="/")
+    title ComMENT TO BE
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+  body
+    nav.navbar.navbar-inverse
+      .container-fluid
+        .navbar-header
+          a.navbar-brand(href="#") ComMENT TO BE
+        ul.nav.navbar-nav
+          li
+            a(href="/") Home
+          li
+            a(href="/comments") ComMENT
+      
+    div(ng-view)    
+      block content
+    
+    script(src='/angular/angular.min.js')
+    script(src='/lib/angular-route.min.js')
+    script(src='/app.js')
+    script(src='/comments/comments.controller.js')
+    script(src='/all/services/commentsData.service.js')
+
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
+    script(src="/javascripts/search.js")
+    link(rel="stylesheet" type="text/css" href="/stylesheets/comments.css")

@@ -1,0 +1,36 @@
+
+<div class="col-md-2 col-sm-2 hidden-xs" ng-click>
+  
+  <figure class="thumbnail">
+    <img class="img-responsive" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png" />
+    <figcaption class="text-center">{{ commentdirective._id }}</figcaption>
+  </figure>
+  
+</div>
+<div class="col-md-10 col-sm-10">
+  
+  <div class="panel panel-default arrow left">
+    <div class="panel-body" ng-click="onclick()">
+      <header class="text-left">
+        <div class="comment-user"><i class="fa fa-user"></i>{{ commentdirective.name }}</div>
+        <time class="comment-date" datetime="16-12-2014 01:05">
+            <i class="fa fa-clock-o"></i> {{ commentdirective.date }}</time>
+      </header>
+      <div class="comment-post">
+        <p>
+          {{ commentdirective.comment }}
+        </p>
+      </div>
+    </div>
+    <div class="panel-footer" ng-show='commdirvm.logedin && commdirvm.landing'>
+      <form class=" navbar-form navbar-left" ng-submit="commdirvm.deleteById(commentdirective._id)">
+        <div class="form-group">
+          <input class="form-control hidden" type="text" value="{{commentdirective._id}}" name="_id"/>
+        </div>
+        <button class="btn btn-default" id="delete" type="submit">Delete</button>
+      </form>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+
+</div>
