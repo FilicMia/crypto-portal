@@ -24,9 +24,6 @@
     </div>
     <div class="panel-footer" ng-show='commdirvm.mycomment(commentdirective) && commdirvm.landing'>
       <form class=" navbar-form navbar-left" ng-submit="commdirvm.deleteById(commentdirective._id)">
-        <div class="form-group">
-          <input class="form-control hidden" type="text" value="{{commentdirective._id}}" name="_id"/>
-        </div>
         <button class="btn btn-default" id="delete" type="submit">Delete</button>
       </form>
       <div class="clearfix"></div>

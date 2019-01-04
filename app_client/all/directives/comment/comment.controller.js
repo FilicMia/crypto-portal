@@ -10,6 +10,7 @@
     }
     
     commdirvm.mycomment = function(comment){
+      if(!commdirvm.logedin) return false;
       var decoded = authentication.getDataFromToken(authentication.returnToken());
       return decoded._id == comment._creator;
     };

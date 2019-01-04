@@ -5,6 +5,11 @@
 
     vm.idComment = $routeParams.idComment;
     vm.logedin = authentication.logedin();
+    vm.mycomment = function(comment){
+      if(!vm.logedin) return false;
+      var decoded = authentication.getDataFromToken(authentication.returnToken());
+      return decoded._id == comment._creator;
+    }
     
     commentsData.commentById(vm.idComment)
     .then(function success(response) {
