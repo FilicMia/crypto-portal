@@ -51,6 +51,10 @@
           };
         }
       };
+      
+    var getDataFromToken = function(token) {
+        return JSON.parse($window.atob(token.split('.')[1]));
+      };
 
     
     return {
@@ -60,7 +64,8 @@
       login: login,
       logout: logout,
       logedin: logedin,
-      currUser: currUser
+      currUser: currUser,
+      getDataFromToken: getDataFromToken
     };
   }
   authentication.$inject = ['$window', '$http'];

@@ -9,6 +9,11 @@
       commdirvm.user.username = commdirvm.user.mail;
     }
     
+    commdirvm.mycomment = function(comment){
+      var decoded = authentication.getDataFromToken(authentication.returnToken());
+      return decoded._id == comment._creator;
+    };
+    
     commdirvm.deleteById = function(id){
       commentsData.deleteById(id, commdirvm.user).then(
         function success(response) {
