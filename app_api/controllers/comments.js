@@ -41,10 +41,12 @@ var createComment = function(req,res,user,datatime){
     });
 };
 
-var deleteCommentFromUser = function(res,comment,username){
+var deleteCommentFromUser = function(res,comment){
+    console.log('comment id',comment._id);
+    console.log('creator id',comment._creator);
 
     User.updateOne({
-                mail: username
+                _id: comment._creator
             }, {
             $pull: {
                     comments: comment._id
@@ -57,7 +59,7 @@ var deleteCommentFromUser = function(res,comment,username){
                     'Inconsistant state of the user.'+user.mail
                     });
                 }
-                console.log(comment," is removed to the list of your comments");
+                console.log(user," is removed to the list of your comments");
                 JSONcallback(res, 200, {
                     removed: comment
                     
@@ -140,7 +142,7 @@ module.exports.deleteCommentById = function(req, res) {
     
     //check if user has a comment
     Comment
-    .deleteOne({ _id: req.params.idComment })
+    .findOneAndRemove({ _id: req.params.idComment })
     //populate create to fatch the user
     .populate('_creator')
     .exec(function (error, content) {
@@ -148,7 +150,7 @@ module.exports.deleteCommentById = function(req, res) {
       JSONcallback(res,400,error);
     } else {
         console.log(content);
-        deleteCommentFromUser(res,content, req.body.username);
+        deleteCommentFromUser(res,content);
     }});
 };
 
