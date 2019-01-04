@@ -57,7 +57,7 @@ module.exports.register = function(req, res) {
     user.save(function(error,user){
         if(error){
                 JSONcallback(res, 404, {
-                  msg: "Error."
+                  msg: error
                 });
                 return;
         }

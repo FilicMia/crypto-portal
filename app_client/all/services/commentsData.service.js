@@ -23,8 +23,8 @@
         }});
     };
     
-    var deleteById = function(id) {
-      return $http.delete('/api/comments/' + id, {
+    var deleteById = function(id, username) {
+      return $http.delete('/api/comments/' + id, username, {
         headers: {
           Authorization: 'Bearer ' + authentication.returnToken()
         }

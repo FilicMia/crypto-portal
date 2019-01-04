@@ -7,7 +7,11 @@ var userSchema = new mongoose.Schema({
   mail: {type: String, unique: true, required: true},
   name: {type: String, required: true},
   hashValue: String,
-  randValue: String
+  randValue: String,
+  comments:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment'
+    }]
 });
 
 //encryption

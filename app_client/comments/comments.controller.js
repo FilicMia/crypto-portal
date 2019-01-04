@@ -5,6 +5,7 @@ function commentsCtrl(commentsData, $location, $scope, authentication) {
   vm.msg = "Searching comments...";
   
   vm.logedin = authentication.logedin();
+  vm.user = authentication.currUser();
   
   commentsData.comments().then(
     function succes(response){
@@ -21,6 +22,8 @@ function commentsCtrl(commentsData, $location, $scope, authentication) {
        //   comment: req.body.comment,
        //   pic: req.body.pic,
        vm.newcomment.pic = '';
+       vm.newcomment.name = vm.user.name;
+       vm.newcomment.username = vm.user.mail;
        commentsData.newComment(vm.newcomment).then(
           function succes(response){
             vm.msg = response.data.length > 0 ? "" : "No comments.";

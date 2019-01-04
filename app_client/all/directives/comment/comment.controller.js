@@ -4,8 +4,13 @@
     commdirvm.logedin = authentication.logedin();
     commdirvm.landing = $location.path() != '/';
     
+    commdirvm.user = authentication.currUser();
+    if(commdirvm.user) {
+      commdirvm.user.username = commdirvm.user.mail;
+    }
+    
     commdirvm.deleteById = function(id){
-      commentsData.deleteById(id).then(
+      commentsData.deleteById(id, commdirvm.user).then(
         function success(response) {
           $location.path('/');
         },
