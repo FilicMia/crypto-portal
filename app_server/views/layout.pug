@@ -1,23 +1,35 @@
-doctype html
 html(lang="sl" ng-app="comments")
   head
     meta(http-equiv="Content-Type" content="text/html; charset=UTF-8")
+    title Crypto comments
     base(href="/")
-    title ComMENT TO BE
     meta(http-equiv="X-UA-Compatible" content="IE=edge")
     meta(name="viewport" content="width=device-width, initial-scale=1")
-    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+    link(rel='shortcut icon', href="/images/favicon.ico")
+    // CSS
+    
+    link(href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700', rel='stylesheet')
+    link(rel='stylesheet', href='//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css')
+    link(rel='stylesheet', href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css')
+    link(href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css', rel='stylesheet')
+    link(rel='stylesheet', type='text/css', href="/stylesheets/header.css")
+    link(rel="stylesheet" type="text/css" href="/stylesheets/comments.css")
+    // JS
   body
-    nav.navbar.navbar-inverse
+    block head
+    nav#top
+      h1 Cryptogram
+      a.home(href="http://lkrv.fri.uni-lj.si/crypto-portal/")
+        img(src="/images/logo.png")
+    nav.navbar.navbar-inverse#header-comments
       .container-fluid
         .navbar-header
-          a.navbar-brand(href="#") ComMENT TO BE
+          a.navbar-brand(href="http://lkrv.fri.uni-lj.si/crypto-portal/") 
+            img#home(src="/images/home-icon.png")
         ul.nav.navbar-nav
           li
-            a(href="/") Home
-          li
-            a(href="/comments") ComMENT
-      
+            a(href="/comments") Comment
+    
     div(ng-view)    
       block content
     

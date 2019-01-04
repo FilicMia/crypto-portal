@@ -1,18 +1,17 @@
-/*var express = require('express');
+var express = require('express');
 var router = express.Router();
 var ctrlComments = require('../controllers/comments');
 
-/* GET home page. Observe the definition of the index function, it just renders the page
-not fatching the data. Where do we fatch data then??? (ANGULAR)
-*/
-
-/* 
+/* GET home page. 
 router.get('/', ctrlComments.index);
 
 router.post('/new', ctrlComments.newComment);
 
+//search by the name
+//get all comments with the certain name
+router.get('/search', ctrlComments.getCommentsByName);
+
 router.post('/delete', ctrlComments.deleteById);
 
-module.exports = router;
-*/
+module.exports = router; */
 

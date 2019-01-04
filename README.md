@@ -1,23 +1,3 @@
-# SOLUTION 
-More detailed instructions how to get commit `4a197a0` to the commit `c8ccb95` can be found under 
-[`docs/solution.md`](https://bitbucket.org/mfilic/v6-resitev/src/master/docs/instructions.md).
-It explaines what we did on excercises.
-
-The minimal solution to `v6` is up to the [commit](https://bitbucket.org/mfilic/v5-resitev/commits/c8ccb95):
-> v6 resitev
-
-The source code up to that commit downloaded with the following. 
-
-~~~~.bash
-git clone https://bitbucket.org/mfilic/v6-resitev/commits/c8ccb95
-~~~~
-
-or, if you have already downloader `v6-resitev`, with the following.
-
-~~~~.bash
-cd v6-resitev
-git reset --hard c8ccb95
-~~~~
 
 # Quick start
 
@@ -26,7 +6,7 @@ git reset --hard c8ccb95
 ~/workspace $ git clone <URL-to-repo>
 ~/workspace $ cd <repo>
 
-~/workspace/v6 (master) $ npm install //set express app  
+~/workspace/crypto-portal (master) $ npm install //set express app  
 ~~~~
 
 ## Cerate the local database
@@ -47,7 +27,7 @@ $ sudo apt-get install mongodb-org-server
 
 ### Create local serving system
 ~~~~ {.bash}
-~/workspace/v6 (master) $ cd ~/workspace
+~/workspace/crypto-portal (master) $ cd ~/workspace
 ~/workspace $ mkdir mongodb
 ~/workspace $ cd mongodb
 
@@ -65,12 +45,27 @@ $ sudo apt-get install mongodb-org-server
 Do this in new terminal. You need to leave the database to be served to access it.
 
 ~~~~ {.bash}
-$ mongoimport --db Comments --collection Comments --mode upsert --upsertFields name --jsonArray --file ~/workspace/v6/app_server/models/comments-mongodb.json
+$ mongoimport --db crypto-portal --collection Comments --mode upsert --upsertFields name --jsonArray --file ~/workspace/crypto-portal/app_server/models/comments-mongodb.json
 ~~~~
 
 ## Start the app
 ~~~~ {.bash}
-~/workspace (master) $ npm install -g nodemon
-~/workspace (master) $ cd ~/workspace/v6
-~/workspace/v6 (master) $ nodemon start
+~/workspace (master) $ cd ~/workspace/crypto-portal
+~/workspace/crypto-portal (master) $ npm start
 ~~~~
+
+# Host on Heroku (by your account)
+
+~~~~ {.bash}
+$ curl https://cli-assets.heroku.com/install.sh | sh
+$ sudo ln -s /usr/local/bin/heroku /usr/bin/heroku
+$ heroku login -i
+$ cd ~/workspace/crypto-portal
+~/workspace/crypto-portal (master) $ heroku create
+~/workspace/crypto-portal (master) $ git push heroku master
+~/workspace/crypto-portal (master) $ heroku config:set MLAB_URI=mongodb://{user}:{pass}@dsX{koda-mLab-baze}.mlab.com:{koda-mLab-baze}/{database-name}
+~/workspace/crypto-portal (master) $ heroku config:set NODE_ENV=production
+~~~~
+
+Note that the collections' names of the local and mLabl database MUST match complitely (case as well)!
+The database names can differ.

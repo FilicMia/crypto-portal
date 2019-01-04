@@ -23,6 +23,11 @@ module.exports.createNew = function(req, res) {
     if(!datatime){
         datatime = new Date()
     }
+    /*
+        The .save() is an instance method of the model, while the 
+        .create() is called directly from the Model as a method call, 
+        being static in nature, and takes the object as a first parameter.
+    */
     Comment.create({
         name: req.body.name,
         comment: req.body.comment,

@@ -45,6 +45,7 @@ module.exports.newComment = function(req, res) {
   );
 };
 
+
 module.exports.deleteById = function(req, res) {
   console.log("Server req to delete comment "+req.body._id);
   var path = paramsApi.apiCommentsURI + '/'+req.body._id;
