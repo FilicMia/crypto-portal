@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Comment = mongoose.model('Comment');//model name
 var User = mongoose.model('User');//model name
+var jwt = require('jsonwebtoken');
 
 var JSONcallback = function(res, status, msg) {
   res.status(status);
@@ -42,9 +43,6 @@ var createComment = function(req,res,user,datatime){
 };
 
 var deleteCommentFromUser = function(res,comment){
-    console.log('comment id',comment._id);
-    console.log('creator id',comment._creator);
-
     User.updateOne({
                 _id: comment._creator
             }, {
@@ -139,18 +137,41 @@ module.exports.getCommentById = function(req, res) {
 };
 
 module.exports.deleteCommentById = function(req, res) {
+    //get header auth token.
+    if (req.headers && req.headers.authorization) {
+        var authorization = req.headers.authorization,
+            decoded;
+        authorization = authorization.split(' ')[1];
+        try {
+            decoded = jwt.verify(authorization, process.env.JWT_PASS);
+        } catch (e) {
+            return res.status(401).send('unauthorized');
+        }
+    }
+    //user info in decoded
+    //console.log(decoded);
     
     //check if user has a comment
     Comment
-    .findOneAndRemove({ _id: req.params.idComment })
+    .findOneAndRemove({ 
+        _creator: decoded._id,
+        _id: req.params.idComment 
+    })
     //populate create to fatch the user
     .populate('_creator')
-    .exec(function (error, content) {
+    .exec(function (error, comment) {
     if (error) {
-      JSONcallback(res,400,error);
+      JSONcallback(res,400,{
+          msg: 'Error.',
+          error: error
+      });
+    } 
+    if(!comment) {
+        JSONcallback(res,401,{
+          msg: 'No comment connected with logedin user.'
+      });
     } else {
-        console.log(content);
-        deleteCommentFromUser(res,content);
+        deleteCommentFromUser(res,comment);
     }});
 };
 
