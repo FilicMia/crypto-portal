@@ -41,7 +41,7 @@ module.exports.index = function(req, res) {
   var paramsReq = {
     url: paramsApi.server + path,
     method: 'GET',
-    json: true, //parse to json
+    json: true, //parse response to json (IMPORTANT)
   };
   rp(paramsReq)
   .then(
