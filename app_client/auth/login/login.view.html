@@ -1,0 +1,24 @@
+<naviga></naviga>
+
+<div class="container">
+  
+  <div class="row">
+    <div class="col-md-6 col-sm-12">
+      <p class="lead">Looking for <a href="/registration?page={{ vm.firstToDisplay }}">register</a>?</p>
+      <form ng-submit="vm.sendContent()" autocomplete="off">
+        <div role="alert" ng-show="vm.error" class="alert alert-danger">{{ vm.error }}</div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="mail" placeholder="Mail" ng-model="vm.loginData.mail">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="pass" placeholder="Password" ng-model="vm.loginData.pass">
+        </div>
+        <button type="submit" class="btn btn-default btn-sm">Login!</button>
+      </form>
+    </div>
+  </div>
+  
+  <noga></noga>
+</div>

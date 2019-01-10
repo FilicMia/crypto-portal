@@ -236,3 +236,11 @@ body .no-padding {
 .comment-list .comment-post {
   margin-top: 6px;
 }
+
+label[for=filter] {
+  margin-right:10px;
+}
+
+#filter {
+  margin-bottom:20px;
+}

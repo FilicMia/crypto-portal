@@ -1,0 +1,32 @@
+<naviga></naviga>
+<div class="container">
+  <section class="comment-list">
+      <label for="filter">Search comments</label>
+      <input id="filter" type="text" name="filter" ng-model="search.name">
+      
+      <div class="container-article" ng-repeat="comment in vm.data.comments | filter:search:strict">
+        <article class='row'>
+          
+          <comment onecomment='comment' onclickf='redirectTo(comment)'></comment>
+
+        </article>
+        </div>
+
+  </section>
+  
+  <!-- show only to the logedin users -->
+  <div class="container" ng-show='vm.logedin'>
+    <div class="widget-area no-padding blank">
+        <div class="status-upload">
+            <form id="commentForma" ng-submit='vm.newComment()' role="form">
+                <div class="form-group"><label for="comment">Comment:</label><textarea class="form-control" rows="5" name="comment" id="comment" ng-model='vm.newcomment.comment'></textarea></div>
+                <div class="form-group"><label for="picupload">Upload Image</label>
+                    <div class="input-group"><span class="input-group-btn"><span class="btn btn-default btn-file">Browse… <input id="imgInp" type="file"/></span></span><input class="form-control" type="text" name="pic" /></div>
+                    <div><img id="img-upload" /></div>
+                </div><button class="btn btn-success green" type="submit"><i class="fa fa-share"></i> Share</button></form>
+        </div>
+    </div>
+  </div>
+  <footos></footos>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/comments.css">
+</div>
