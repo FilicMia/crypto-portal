@@ -1,5 +1,4 @@
-
-<div class="col-md-2 col-sm-2 hidden-xs" ng-click>
+<div class="col-md-2 col-sm-2 hidden-xs">
   
   <figure class="thumbnail">
     <img class="img-responsive" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png" />
@@ -22,7 +21,7 @@
         </p>
       </div>
     </div>
-    <div class="panel-footer" ng-show='commdirvm.mycomment(commentdirective) && commdirvm.landing'>
+    <div class="panel-footer" ng-show='commdirvm.canDelete(commentdirective) && commdirvm.landing'>
       <form class=" navbar-form navbar-left" ng-submit="commdirvm.deleteById(commentdirective._id)">
         <button class="btn btn-default" id="delete" type="submit">Delete</button>
       </form>

@@ -11,7 +11,7 @@ module.exports.login = function(req, res) {
     /* request consists of body with login data named usernameField: 'mail',
     passwordField: 'pass' as defined in `passport.js` */
     if( !req.body.mail || !req.body.pass){
-        JSONcallback(res, 400, {
+        JSONcallback(res, 500, {
           msg: "All data req."
         });
         return;
@@ -21,7 +21,7 @@ module.exports.login = function(req, res) {
     passport.authenticate('local', //strategy
         function(error, user, data){
             if(error){
-                JSONcallback(res, 404, {
+                JSONcallback(res, 500, {
                   msg: "Error."
                 });
                 return;
@@ -41,7 +41,7 @@ module.exports.register = function(req, res) {
     /* request consists of body with login data named usernameField: 'mail',
     passwordField: 'pass' as defined in `passport.js` */
     if( !req.body.mail || !req.body.pass || !req.body.name){
-        JSONcallback(res, 400, {
+        JSONcallback(res, 500, {
           msg: "All data req."
         });
         return;
@@ -49,14 +49,16 @@ module.exports.register = function(req, res) {
     
     var user = new User({
            name:  req.body.name,
-           mail: req.body.mail
+           mail: req.body.mail,
+           //only in database mlab we can change this premission.
+           admin: false
         });
         
     user.storePassword(req.body.pass);
     
     user.save(function(error,user){
         if(error){
-                JSONcallback(res, 404, {
+                JSONcallback(res, 500, {
                   msg: error
                 });
                 return;

@@ -22,9 +22,9 @@ router.delete('/comments/:idComment', authentication,
         ctrComments.deleteCommentById);
 
 /* User */
-router.get('/users', ctrlUsers.getAll);
-router.get('/users/:idUser', ctrlUsers.getUserById);
-router.delete('/users/:idUser', ctrlUsers.deleteUserById);
+router.get('/users', authentication, ctrlUsers.getAll);
+router.get('/users/:idUser', authentication, ctrlUsers.getUserById);
+router.delete('/users/:idUser', authentication, ctrlUsers.deleteUserById);
 
 /* Authentication */
 router.post('/login', ctrlAuthentication.login);

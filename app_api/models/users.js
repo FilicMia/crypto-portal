@@ -8,6 +8,7 @@ var userSchema = new mongoose.Schema({
   name: {type: String, required: true},
   hashValue: String,
   randValue: String,
+  admin: {type: Boolean, required: true},
   comments:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment'
@@ -52,6 +53,9 @@ userSchema.methods.genJWT = function(){
     _id: this._id,
     name: this.name,
     mail: this.mail,
+    // admin can access all api paths, even for listing users, which is not available
+    // to others. It can also delete certain user using REST API or a comment.
+    admin: this.admin, 
     validityDate: parseInt(validityDate.getTime() / 1000, 10)
   }, process.env.JWT_PASS);
   

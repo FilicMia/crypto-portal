@@ -7,7 +7,8 @@ var commentSchema = new mongoose.Schema({
   name: {type: String, required: true},
   comment: String,
   pic: String,
-  date: Date
+  date: Date,
+  admin: {type: Boolean, default: false}
 });
 
 //Translating the scheme into a model

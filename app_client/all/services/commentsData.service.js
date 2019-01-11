@@ -25,7 +25,6 @@
     
     var deleteById = function(id) {
       var user = authentication.currUser();
-      console.log(user);
       return $http.delete('/api/comments/' + id, {
         headers: {
           Authorization: 'Bearer ' + authentication.returnToken()

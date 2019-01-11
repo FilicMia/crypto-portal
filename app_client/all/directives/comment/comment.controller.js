@@ -9,10 +9,10 @@
       commdirvm.user.username = commdirvm.user.mail;
     }
     
-    commdirvm.mycomment = function(comment){
+    commdirvm.canDelete = function(comment){
       if(!commdirvm.logedin || !comment) return false;
       var decoded = authentication.getDataFromToken(authentication.returnToken());
-      return decoded._id == comment._creator;
+      return (decoded.admin || decoded._id == comment._creator);
     };
     
     commdirvm.deleteById = function(id){
