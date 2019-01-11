@@ -24,9 +24,11 @@ function provider($routeProvider, $locationProvider) {
       controller: 'loginCtrl',
       controllerAs: 'vm'
     })
+    .when('/404', {
+      templateUrl: 'error/404.template.html'
+    })
     .otherwise({
-        controller: 'otherCtrl',
-        template: '<div></div>'
+        redirectTo: '/404'
     });
     
     //Remove #:
