@@ -1,8 +1,10 @@
 <div class="col-md-2 col-sm-2 hidden-xs">
   
   <figure class="thumbnail">
-    <img class="img-responsive" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png" />
-    <figcaption class="text-center">{{ commentdirective.name }}</figcaption>
+    <img class="img-responsive" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png" ng-hide='commentdirective.admin' />
+    <img class="img-responsive" src="/images/admin_icon1.png" ng-show='commentdirective.admin'/>
+    <figcaption class="text-center" ng-hide='commentdirective.admin'>{{ commentdirective.name }}</figcaption>
+    <figcaption class="text-center" ng-show='commentdirective.admin'>Admin</figcaption>
   </figure>
   
 </div>

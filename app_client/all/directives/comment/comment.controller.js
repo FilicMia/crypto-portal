@@ -5,6 +5,7 @@
     commdirvm.landing = $location.path() != '/';
     
     commdirvm.user = authentication.currUser();
+    
     if(commdirvm.user) {
       commdirvm.user.username = commdirvm.user.mail;
     }
