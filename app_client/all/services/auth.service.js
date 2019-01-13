@@ -15,6 +15,7 @@
     };
     
     var registration = function(user) {
+      console.log('auth',user);
       return $http.post('/api/registration', user).then(
         function success(data) {
           storeToken(data.data.token);

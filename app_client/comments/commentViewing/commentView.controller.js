@@ -19,8 +19,8 @@
           title: vm.comment.name
         };
       },
-      function error(odgovor) {
-        console.log(odgovor.e);
+      function error(response) {
+        console.log(response);
       });
       
       vm.editComm = function(id, commentData){

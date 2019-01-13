@@ -42,6 +42,6 @@ function provider($routeProvider, $locationProvider) {
 
 /* global angular */
 angular
-    .module('comments',['ngRoute', 'ui.bootstrap'])
+    .module('comments',['ngRoute', 'ui.bootstrap', 'ngSanitize'])
     .config(['$routeProvider','$locationProvider',provider]);
 })();

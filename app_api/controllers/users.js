@@ -45,6 +45,21 @@ module.exports.getUserById = function(req, res) {
         var decoded = decodeAndVerify(req, res);
         if(!decoded || !decoded.admin) return JSONcallback(res,401,{msg: 'Unauthorized'});
         
+        if (!req.params || !req.params.idUser){
+            JSONcallback(res, 400, {
+            "msg": "Wrong request params!"
+          });
+          return;
+          
+        }
+        
+        if (!(/^\w+$/.test(req.params.idUser))) {
+              JSONcallback(res, 400, {
+                "msg": "Id should contain only alphanumeric characters!"
+              });
+              return;
+        }
+        
         User.findById(
              req.params.idUser, function(error, data){
             if(error){
@@ -60,6 +75,21 @@ module.exports.deleteUserById = function(req, res) {
     if (req.headers && req.headers.authorization) {
         var decoded = decodeAndVerify(req, res);
         if(!decoded || !decoded.admin) return JSONcallback(res,401,{msg: 'Unauthorized'});
+        
+        if (!req.params || !req.params.idUser){
+            JSONcallback(res, 400, {
+            "msg": "Wrong request params!"
+          });
+          return;
+          
+        }
+        
+        if (!(/^\w+$/.test(req.params.idUser))) {
+              JSONcallback(res, 400, {
+                "msg": "Id should contain only alphanumeric characters!"
+              });
+              return;
+        }
         
         User.deleteOne({ _id: req.params.idUser }, function (error, content) {
         if (error) {

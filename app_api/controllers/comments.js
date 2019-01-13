@@ -92,18 +92,38 @@ module.exports.getAll = function(req, res) {
 };
 
 module.exports.createNew = function(req, res) {
-    var datatime = req.body.date;
-    if(!datatime){
-        datatime = new Date()
-    }
     /* request consists of body with username - attached to valid user
         and comments needed data.*/
-    if( !req.body.username || !req.body.name 
+        
+    if( !req.body || !req.body.username || !req.body.name 
             || !req.body.comment){
         JSONcallback(res, 500, {
           msg: "All data req."
         });
         return;
+    }
+    
+    //additional security check
+    /*
+    Is the name only alphanumeric characters.
+    */
+    if (!(/^\w+$/.test(req.body.name))) {
+      JSONcallback(res, 400, {
+        "msg": "Name should contain only alphanumeric characters!"
+      });
+      return;
+    }
+    
+    if (!(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(req.body.username))) {
+      JSONcallback(res, 400, {
+        "msg": "Username should be of type email."
+      });
+      return;
+    }
+    
+    var datatime = req.body.date;
+    if(!datatime){
+        datatime = new Date()
     }
     
     User.findOne({
@@ -128,6 +148,25 @@ module.exports.createNew = function(req, res) {
 };
 
 module.exports.getCommentByName = function(req, res) {
+    
+    if(!req.params || !req.query.name){
+        JSONcallback(res, 400, {
+          msg: "No query atribute."
+        });
+        return;
+    }
+    
+    //additional security check
+    /*
+    Is the name only alphanumeric characters.
+    */
+    if (!(/^\w+$/.test(req.query.name))) {
+      JSONcallback(res, 400, {
+        "msg": "Name should contain only alphanumeric characters!"
+      });
+      return;
+    }
+    
     Comment.find({
         name: req.query.name
     }, function(error, data){
@@ -140,6 +179,21 @@ module.exports.getCommentByName = function(req, res) {
 };
 
 module.exports.getCommentById = function(req, res) {
+    if (!req.params || !req.params.idComment){
+        JSONcallback(res, 400, {
+        "msg": "Wrong request params!"
+      });
+      return;
+      
+    }
+    
+    if (!(/^\w+$/.test(req.params.idComment))) {
+      JSONcallback(res, 400, {
+        "msg": "Id comment, should contain only alphanumeric characters!"
+      });
+      return;
+    }
+    
     Comment.findById(
          req.params.idComment, function(error, data){
         if(error){
@@ -152,58 +206,99 @@ module.exports.getCommentById = function(req, res) {
 
 module.exports.deleteCommentById = function(req, res) {
     //get header auth token.
-    if (req.headers && req.headers.authorization) {
-        var decoded = decodeAndVerify(req, res);
+    var decoded;
+    if (!req.headers || !req.headers.authorization) {
+        decoded = decodeAndVerify(req, res);
         if(!decoded) return JSONcallback(res,401,{msg: 'Unauthorized'});
-        
-        //admin can do anything
-        if(decoded.admin){
-            Comment
-            .findOneAndRemove({
-                _id: req.params.idComment 
-            })
-            .exec(function (error, comment) {
-                if (error) {
-                    JSONcallback(res,500,{
-                      msg: 'Error while deleting the comment. Comment might be in incosistent state.',
-                      error: error
-                  });
-                  return;
-                }
-                
-                JSONcallback(res,200,comment);
-            });
-            return;
-        }
-        
-        //check if user has a comment
+    }
+    
+    //check for params
+    if (!req.params|| !req.params.idComment){
+        JSONcallback(res, 400, {
+        "msg": "Wrong request params!"
+      });
+      return;
+      
+    }
+    
+    if (!(/^\w+$/.test(req.params.idComment))) {
+      JSONcallback(res, 400, {
+        "msg": "Id comment, should contain only alphanumeric characters!"
+      });
+      return;
+    }
+    
+    //admin can do anything
+    if(decoded.admin){
         Comment
-        .findOneAndRemove({ 
-            _creator: decoded._id,
+        .findOneAndRemove({
             _id: req.params.idComment 
         })
-        //populate create to fatch the user
-        .populate('_creator')
         .exec(function (error, comment) {
-        if (error) {
-          JSONcallback(res,500,{
-              msg: 'Error.',
-              error: error
-          });
-          return;
-        } 
-        if(!comment) {
-            JSONcallback(res,401,{
-              msg: 'No comment connected with logedin user.'
-          });
-        } else {
-            deleteCommentFromUser(res,comment);
-        }});
+            if (error) {
+                JSONcallback(res,500,{
+                  msg: 'Error while deleting the comment. Comment might be in incosistent state.',
+                  error: error
+              });
+              return;
+            }
+            
+            JSONcallback(res,200,comment);
+        });
+        return;
     }
+    
+    //check if user has a comment
+    Comment
+    .findOneAndRemove({ 
+        _creator: decoded._id,
+        _id: req.params.idComment 
+    })
+    //populate create to fatch the user
+    .populate('_creator')
+    .exec(function (error, comment) {
+    if (error) {
+      JSONcallback(res,500,{
+          msg: 'Error.',
+          error: error
+      });
+      return;
+    } 
+    if(!comment) {
+        JSONcallback(res,401,{
+          msg: 'No comment connected with logedin user.'
+      });
+    } else {
+        deleteCommentFromUser(res,comment);
+    }});
+
 };
 
 //suppode to have req.params.idComment & req.body.comment
 module.exports.editComment = function(req, res) {
+    if (!req.body || !req.body.comment){
+        JSONcallback(res, 400, {
+        "msg": "No comment found!"
+      });
+      return;
+      
+    }
+    
+    if (!req.params || !req.params.idComment){
+        JSONcallback(res, 400, {
+        "msg": "Wrong request params!"
+      });
+      return;
+      
+    }
+    
+    if (!(/^\w+$/.test(req.params.idComment))) {
+      JSONcallback(res, 400, {
+        "msg": "Id comment, should contain only alphanumeric characters!"
+      });
+      return;
+    }
+    
     var datetime = req.body.date;
     if(!datetime){
         datetime = new Date()

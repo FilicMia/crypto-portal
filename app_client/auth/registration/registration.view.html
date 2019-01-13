@@ -6,19 +6,19 @@
     <div class="col-md-6 col-sm-12">
       <p class="lead">Looking for the <a href="/login?page={{ vm.firstToDisplay }}">login</a> ?</p>
       <form ng-submit="vm.sendContent()" autocomplete="off">
-        <div role="alert" ng-show="vm.error" class="alert alert-danger">{{ vm.error }}</div>
+        <div role="alert" ng-show="vm.msg || vm.error" class="alert alert-danger">{{ vm.msg }} {{ vm.error.msg }}</div>
         
         <div class="form-group">
           <label for="name">Name:</label>
-          <input type="text" class="form-control" id="name" placeholder="Name" ng-model="vm.registerData.name">
+          <input type="text" class="form-control" id="name" pattern="^\w+$" title="Alphanumeric characters" placeholder="Name" ng-model="vm.registerData.name">
         </div>
         <div class="form-group">
           <label for="email">Email:</label>
-          <input type="email" class="form-control" id="mail" placeholder="Email" ng-model="vm.registerData.mail">
+          <input type="email" class="form-control" id="mail" title="Valid mail" placeholder="Email" ng-model="vm.registerData.mail">
         </div>
         <div class="form-group">
           <label for="password">Password: </label>
-          <input type="password" class="form-control" id="pass" placeholder="Password" ng-model="vm.registerData.pass">
+          <input type="password" class="form-control" id="pass" pattern="^.{6,}$" title="Input of at least size 6" placeholder="Password" ng-model="vm.registerData.pass">
         </div>
         <button type="submit" class="btn btn-default">Register!</button>
       </form>
