@@ -14,7 +14,7 @@ var decodeAndVerify = function(req, res){
         try {
             decoded = jwt.verify(authorization, process.env.JWT_PASS);
         } catch (e) {
-            res.status(401).send('unauthorized');
+            res.status(401).send('Unauthorized');
             return false;
         }
         
@@ -31,7 +31,7 @@ module.exports.getAll = function(req, res) {
         .exec(function(err, users){
             if (err) {
                 console.log(err);
-                JSONcallback(err, 500, users);
+                JSONcallback(res, 500, err);
             }else{
                 JSONcallback(res, 200, users);
             }
@@ -47,7 +47,7 @@ module.exports.getUserById = function(req, res) {
         
         if (!req.params || !req.params.idUser){
             JSONcallback(res, 400, {
-            "msg": "Wrong request params!"
+            msg: "Wrong request params!"
           });
           return;
           
@@ -55,7 +55,7 @@ module.exports.getUserById = function(req, res) {
         
         if (!(/^\w+$/.test(req.params.idUser))) {
               JSONcallback(res, 400, {
-                "msg": "Id should contain only alphanumeric characters!"
+                msg: "Id should contain only alphanumeric characters!"
               });
               return;
         }
@@ -78,7 +78,7 @@ module.exports.deleteUserById = function(req, res) {
         
         if (!req.params || !req.params.idUser){
             JSONcallback(res, 400, {
-            "msg": "Wrong request params!"
+            msg: "Wrong request params!"
           });
           return;
           
@@ -86,7 +86,7 @@ module.exports.deleteUserById = function(req, res) {
         
         if (!(/^\w+$/.test(req.params.idUser))) {
               JSONcallback(res, 400, {
-                "msg": "Id should contain only alphanumeric characters!"
+                msg: "Id should contain only alphanumeric characters!"
               });
               return;
         }

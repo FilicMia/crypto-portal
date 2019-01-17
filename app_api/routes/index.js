@@ -20,6 +20,9 @@ router.get('/comments/:idComment', ctrComments.getCommentById);
 router.get('/comments/search', ctrComments.getCommentByName);
 router.delete('/comments/:idComment', authentication,
         ctrComments.deleteCommentById);
+        
+router.get('/comments-count',
+                ctrComments.commentsCount);//comments cout for search or not search
 
 /* User */
 router.get('/users', authentication, ctrlUsers.getAll);

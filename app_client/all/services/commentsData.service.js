@@ -31,13 +31,30 @@
         }
       });
     };
+    
+    /* Returns a comments' page. */
+    var getCommentsPage = function(page) {
+      return $http.get('/api/comments', {
+        params: { 
+          page: page
+        }
+      });
+    }
+
+    /* Returns number of pages and comments. */
+    var getCommentsCount = function(search) {
+      return $http.get('/api/comments-count', {
+      });
+    }
   
     return {
       'comments': data,
       'commentById': commentById,
       'editCommentById': editCommentById,
       'deleteById': deleteById,
-      'newComment': newComment
+      'newComment': newComment,
+      'getCommentsPage': getCommentsPage,
+      'getCommentsCount': getCommentsCount
     };
   }
   commentsData.$inject = ['$http', 'authentication'];

@@ -38,7 +38,7 @@ var createComment = function(req,res,user,datatime){
         if(error){
             JSONcallback(res,500,{
                 msg: 'Error while storing the comment.'+
-                ' Comment not stored.'
+                'Comment not stored.'
             });
         } else {
             //save to certain user as well
@@ -49,8 +49,11 @@ var createComment = function(req,res,user,datatime){
                         comments: comment._id
                     }
                 }).exec(function(err, user){
+                    if(err){
+                        
+                    }
                     console.log(comment, " is added to the list of your comments");
-                    JSONcallback(res, 200, comment);
+                    JSONcallback(res, 201, comment);
                 });
         }
     });
@@ -72,7 +75,7 @@ var deleteCommentFromUser = function(res,comment){
                     });
                 } else {
                 console.log(user," is removed to the list of your comments");
-                JSONcallback(res, 200, {
+                JSONcallback(res, 201, {
                     removed: comment
                     
                 });}
@@ -80,15 +83,23 @@ var deleteCommentFromUser = function(res,comment){
 };
 
 module.exports.getAll = function(req, res) {
-    Comment.find()
-    .exec(function(err, comment){
-        if (err) {
-            console.log(err);
-            JSONcallback(err, 500, comment);
-        }else{
-            JSONcallback(res, 200, comment);
-        }
-    });
+  var query = Comment.find();
+
+  query.sort( {createdAt: -1} );
+  
+  if(req.query && req.query.page) {
+    query.skip(req.query.page*10);
+    query.limit(10);
+  }
+
+  query.exec(function(err, comments){
+    if(err) {
+      JSONcallback(res, 500, err.message)
+      return;
+    } else {
+      JSONcallback(res, 200, comments);
+    }
+  });
 };
 
 module.exports.createNew = function(req, res) {
@@ -97,8 +108,8 @@ module.exports.createNew = function(req, res) {
         
     if( !req.body || !req.body.username || !req.body.name 
             || !req.body.comment){
-        JSONcallback(res, 500, {
-          msg: "All data req."
+        JSONcallback(res, 400, {
+          msg: "All data required."
         });
         return;
     }
@@ -109,14 +120,14 @@ module.exports.createNew = function(req, res) {
     */
     if (!(/^\w+$/.test(req.body.name))) {
       JSONcallback(res, 400, {
-        "msg": "Name should contain only alphanumeric characters!"
+        msg: "Name should contain only alphanumeric characters!"
       });
       return;
     }
     
     if (!(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(req.body.username))) {
       JSONcallback(res, 400, {
-        "msg": "Username should be of type email."
+        msg: "Username should be of type email."
       });
       return;
     }
@@ -136,8 +147,8 @@ module.exports.createNew = function(req, res) {
                 return;
             }
             if(!user){
-                JSONcallback(res, 500, {
-                  msg: "No user with username:"+req.body.username
+                JSONcallback(res, 403, {
+                  msg: "No user with username:"+ req.body.username
                   +". Comment can not be added."
                 });
                 return;
@@ -151,7 +162,7 @@ module.exports.getCommentByName = function(req, res) {
     
     if(!req.params || !req.query.name){
         JSONcallback(res, 400, {
-          msg: "No query atribute."
+          msg: "No query atribute. Malformed request"
         });
         return;
     }
@@ -162,7 +173,7 @@ module.exports.getCommentByName = function(req, res) {
     */
     if (!(/^\w+$/.test(req.query.name))) {
       JSONcallback(res, 400, {
-        "msg": "Name should contain only alphanumeric characters!"
+        msg: "Name should contain only alphanumeric characters!"
       });
       return;
     }
@@ -181,7 +192,7 @@ module.exports.getCommentByName = function(req, res) {
 module.exports.getCommentById = function(req, res) {
     if (!req.params || !req.params.idComment){
         JSONcallback(res, 400, {
-        "msg": "Wrong request params!"
+        msg: "Wrong request params!"
       });
       return;
       
@@ -189,7 +200,7 @@ module.exports.getCommentById = function(req, res) {
     
     if (!(/^\w+$/.test(req.params.idComment))) {
       JSONcallback(res, 400, {
-        "msg": "Id comment, should contain only alphanumeric characters!"
+        msg: "Id comment, should contain only alphanumeric characters!"
       });
       return;
     }
@@ -215,7 +226,7 @@ module.exports.deleteCommentById = function(req, res) {
     //check for params
     if (!req.params|| !req.params.idComment){
         JSONcallback(res, 400, {
-        "msg": "Wrong request params!"
+        msg: "Wrong request params!"
       });
       return;
       
@@ -223,7 +234,7 @@ module.exports.deleteCommentById = function(req, res) {
     
     if (!(/^\w+$/.test(req.params.idComment))) {
       JSONcallback(res, 400, {
-        "msg": "Id comment, should contain only alphanumeric characters!"
+        msg: "Id should contain only alphanumeric characters!"
       });
       return;
     }
@@ -243,7 +254,9 @@ module.exports.deleteCommentById = function(req, res) {
               return;
             }
             
-            JSONcallback(res,200,comment);
+            JSONcallback(res,200,{
+                msg: 'Deleted sucessfully.'
+            });
         });
         return;
     }
@@ -259,14 +272,14 @@ module.exports.deleteCommentById = function(req, res) {
     .exec(function (error, comment) {
     if (error) {
       JSONcallback(res,500,{
-          msg: 'Error.',
+          msg: 'Error while removing comment.',
           error: error
       });
       return;
     } 
     if(!comment) {
         JSONcallback(res,401,{
-          msg: 'No comment connected with logedin user.'
+          msg: 'No comment connected with the user.'
       });
     } else {
         deleteCommentFromUser(res,comment);
@@ -278,7 +291,7 @@ module.exports.deleteCommentById = function(req, res) {
 module.exports.editComment = function(req, res) {
     if (!req.body || !req.body.comment){
         JSONcallback(res, 400, {
-        "msg": "No comment found!"
+        msg: "No comment found!"
       });
       return;
       
@@ -286,7 +299,7 @@ module.exports.editComment = function(req, res) {
     
     if (!req.params || !req.params.idComment){
         JSONcallback(res, 400, {
-        "msg": "Wrong request params!"
+        msg: "Wrong request params!"
       });
       return;
       
@@ -294,7 +307,7 @@ module.exports.editComment = function(req, res) {
     
     if (!(/^\w+$/.test(req.params.idComment))) {
       JSONcallback(res, 400, {
-        "msg": "Id comment, should contain only alphanumeric characters!"
+        msg: "Id comment, should contain only alphanumeric characters!"
       });
       return;
     }
@@ -323,6 +336,29 @@ module.exports.editComment = function(req, res) {
             }
         });
 };
+
+module.exports.commentsCount = function(req, res){
+  var queryOptions = {};
+
+  if(req.query && req.query.search && req.query != '') 
+    queryOptions['$text'] = { $search: req.query.search };
+  
+  Comment
+    .find(queryOptions)
+    .count()
+    .exec(function(error, response){
+      if (error) {
+        JSONcallback(res, 500, error.message);
+        return;
+      }
+
+      var data = {
+        pages: Math.ceil(response/10),
+        size: response
+      }
+      JSONcallback(res, 200, data);
+    });
+}
 
 //if non-admin becomes admin, tehre is no need to update its comments before becoming admin as they are irrelevent,
 //it was user and as such posted comments. Only new one are commencted to its position,

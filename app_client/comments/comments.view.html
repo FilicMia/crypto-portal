@@ -11,15 +11,21 @@
         or it will be removed by the administrator.
       </div>
   
-      <div class="container-article" ng-repeat="comment in vm.data.comments | filter:search:strict">
+      <div class="container-article" ng-repeat="comment in vm.data.comments | filter:search:strict | filter:vm.q | startFrom:vm.currentPage*vm.pageSize | limitTo:vm.pageSize">
         <article class='row'>
           
           <comment onecomment='comment' onclickf='redirectTo(comment)'></comment>
 
         </article>
-        </div>
-
+      </div>
+      <button ng-disabled="vm.currentPage == 0" ng-click="vm.getCommentsPage(vm.currentPage-1)">
+          Previous
+      </button> {{vm.currentPage+1}}/{{vm.numberOfPages()}}
+      <button ng-disabled="vm.currentPage >= vm.getDataLength()/vm.pageSize - 1" ng-click="vm.getCommentsPage(vm.currentPage+1)">
+            Next
+      </button>
   </section>
+  
   
   <!-- show only to the logedin users -->
   <div class="container" ng-show='vm.logedin'>
