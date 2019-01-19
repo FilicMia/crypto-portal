@@ -17,7 +17,7 @@ var combinedCode = uglifyJs.minify({
   'auth.service.js': fs.readFileSync('app_client/all/services/auth.service.js', 'utf-8'),
   'login.controller.js': fs.readFileSync('app_client/auth/login/login.controller.js', 'utf-8'),
   'registration.controller.js': fs.readFileSync('app_client/auth/registration/registration.controller.js', 'utf-8'),
-
+  'pagination.filter.js': fs.readFileSync('app_client/all/filters/pagination.filter.js', 'utf-8'),
   'comments.controller.js': fs.readFileSync('app_client/comments/comments.controller.js', 'utf-8'),
   'commentView.controller.js': fs.readFileSync('app_client/comments/commentViewing/commentView.controller.js', 'utf-8'),
   'commentEdit.controller.js': fs.readFileSync('app_client/comments/commentEdit/commentEdit.controller.js', 'utf-8'),

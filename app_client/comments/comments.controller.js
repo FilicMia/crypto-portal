@@ -1,5 +1,5 @@
 (function() {
-function commentsCtrl(commentsData, $location, $scope, authentication) {
+function commentsCtrl(commentsData, $location, $scope, authentication, $filter) {
   var vm = this;
   vm.title = 'Comments';
   vm.msg = "Searching comments...";
@@ -42,8 +42,42 @@ function commentsCtrl(commentsData, $location, $scope, authentication) {
         //redirectTo
          $location.url('/comments/'+comment._id);
         };
+        
+        /////////////////PAGINATION////////////////////////
+    vm.currentPage = 0;
+    vm.pageSize = 10;
+    vm.q = '';
+    vm.dataSize = 0;
+    vm.data = {};
+    vm.data.comments = [];
+    vm.data.count = {};
+    commentsData.getCommentsCount().then(function succes(response){
+            vm.data.count = response.data;
+          },
+          function error(response){
+            vm.msg = "Error while fetching comments count.";
+            console.log(response.e);
+          }); 
+    
+    vm.getData = function() {
+      return $filter('filter')(vm.data.comments, vm.q)
+    }
+    
+    vm.getDataLenght = function() {
+      return vm.data.count.size;
+    }
+  
+    vm.numberOfPages = function() {
+      return vm.data.count.pages;
+    }
+    
+    $scope.redirectTo = function(comment){
+        //redirectTo
+         $location.url('/comments/'+comment._id);
+        };
+        
 }
-commentsCtrl.$inject = ['commentsData', '$location', '$scope', 'authentication'];
+commentsCtrl.$inject = ['commentsData', '$location', '$scope', 'authentication', '$filter'];
 
 /* global angular */
 angular
