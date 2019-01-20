@@ -6,16 +6,6 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
   
   vm.logedin = authentication.logedin();
   vm.user = authentication.currUser();
-  
-  commentsData.comments().then(
-    function succes(response){
-      vm.msg = response.data.length > 0 ? "" : "No comments.";
-      vm.data = {'comments': response.data};
-    },
-    function error(response){
-      vm.msg = "Error while fetching comments.";
-      console.log(response.e);
-    });
     
     vm.newComment = function(){
       //name: req.body.name,
@@ -51,7 +41,10 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
     vm.data = {};
     vm.data.comments = [];
     vm.data.count = {};
-    commentsData.getCommentsCount().then(function succes(response){
+    vm.data.cached = [];
+    
+    commentsData.getCommentsCount().then(
+      function succes(response){
             vm.data.count = response.data;
           },
           function error(response){
@@ -63,7 +56,7 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
       return $filter('filter')(vm.data.comments, vm.q)
     }
     
-    vm.getDataLenght = function() {
+    vm.getDataLength = function() {
       return vm.data.count.size;
     }
   
@@ -71,12 +64,76 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
       return vm.data.count.pages;
     }
     
+    vm.next = function() {
+      vm.currentPage = vm.currentPage + 1;
+      vm.data.comments = vm.data.cached.slice(-1)[0];
+  
+      if(vm.currentPage + 1 < vm.numberOfPages()){
+        commentsData.getCommentsPage({
+          page: vm.currentPage - 1,
+          pagesNo: 3,
+          pageSize: vm.pageSize
+        }).then(
+            function succes(response){
+              vm.data.cached = response.data;//each page is separately send
+              
+            },
+            function error(response){
+              //vm.msg = "Error while fetching comments.";
+              console.log(response.e);
+        });
+        
+      } else {
+            vm.data.cached = vm.data.cached.slice(1,3);
+      }
+    };
+    
+    vm.previous = function() {
+      vm.currentPage = vm.currentPage - 1;
+      vm.data.comments = vm.data.comments = vm.data.cached[0];
+      if(vm.currentPage - 1 > 1){
+        commentsData.getCommentsPage({
+          page: vm.currentPage - 1,
+          pagesNo: 3,
+          pageSize: vm.pageSize
+        }).then(
+            function succes(response){
+              vm.data.cached = response.data;
+              
+            },
+            function error(response){
+              vm.msg = "Error while fetching comments.";
+              console.log(response.e);
+            });
+      } else {
+        vm.data.cached = vm.data.cached.slice(0,2);
+      }
+    };
+    
     $scope.redirectTo = function(comment){
         //redirectTo
          $location.url('/comments/'+comment._id);
         };
+    
+    if(!vm.data.comments.length){
+      commentsData.getCommentsPage({
+        page: vm.currentPage,
+        pageSize: vm.pageSize,
+        pageNo: 3
+      }).then(
+          function succes(response){
+            vm.msg = response.data.length > 0 ? "" : "No comments.";
+            vm.data.cached = response.data.slice(0,2);
+            vm.data.comments = response.data[0];
+          },
+          function error(response){
+            vm.msg = "Error while fetching comments.";
+            console.log(response.e);
+      });
+    }
         
-}
+};
+
 commentsCtrl.$inject = ['commentsData', '$location', '$scope', 'authentication', '$filter'];
 
 /* global angular */
