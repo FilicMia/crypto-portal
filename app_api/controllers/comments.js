@@ -96,7 +96,7 @@ module.exports.getAll = function(req, res) {
   var query = Comment.find();
 
   query.sort( {createdAt: -1} );
-  
+ 
   if(req.query && req.query.page && req.query.pageSize) {
     if(!req.query.pageNo) req.query.pageNo = 1;
     if (!(/^[0-9]+$/.test(req.query.page)) || !(/^[0-9]+$/.test(req.query.pageSize)) || !(/^[0-9]+$/.test(req.query.pageNo))) {
@@ -118,6 +118,7 @@ module.exports.getAll = function(req, res) {
     } else {
       console.log(comments.slice(1,2));
       JSONcallback(res, 200, splitArr(comments, req.query.pageNo));
+
     }
   });
 };

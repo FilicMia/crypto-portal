@@ -28,11 +28,46 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
           });
     };
     
+/////////////////PAGINATION////////////////////////
+    vm.currentPage = 0;
+    vm.pageSize = 10;
+    vm.q = '';
+    vm.dataSize = 0;
+    
+    //vm.getData = function() {
+    //  return $filter('filter')(vm.data.comments, vm.q)
+    //}
+    
+    vm.getDataLenght = function() {
+      return commentsData.getCommentsCount().size;
+    }
+    
+    /* Returns page of comments. */
+    vm.getCommentsPage = function(page) {
+      vm.currentPage = page;
+      vm.dataSize = vm.getDataLenght();
+
+      commentsData.getCommentsPage(vm.currentPage).then(
+        function success(res) {
+          vm.data.comments = res.data;
+        },
+        function error(err) {
+          var error = err.data ? err.data.message : err;
+          vm.msg = `An error occures while getting comments: ${error}.`;
+          console.log(error);
+        }
+      )
+    }
+  
+    vm.numberOfPages = function() {
+      return Math.ceil(vm.getDataLenght() / vm.pageSize);
+    }
+    
     $scope.redirectTo = function(comment){
         //redirectTo
          $location.url('/comments/'+comment._id);
         };
-        
+       
         /////////////////PAGINATION////////////////////////
     vm.currentPage = 0;
     vm.pageSize = 10;
@@ -133,7 +168,6 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
     }
         
 };
-
 commentsCtrl.$inject = ['commentsData', '$location', '$scope', 'authentication', '$filter'];
 
 /* global angular */
