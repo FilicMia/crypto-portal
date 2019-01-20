@@ -82,14 +82,33 @@ var deleteCommentFromUser = function(res,comment){
             });
 };
 
+function splitArr(arr, n) { 
+    return arr.reduce(function (a, i) { 
+        if (a[a.length - 1].length >= arr.length / n) { 
+            a.push([]) 
+            
+        } 
+        a[a.length - 1].push(i);
+        return a; 
+    }, [[]]) }
+
 module.exports.getAll = function(req, res) {
   var query = Comment.find();
 
   query.sort( {createdAt: -1} );
-  
-  if(req.query && req.query.page) {
-    query.skip(req.query.page*10);
-    query.limit(10);
+ 
+  if(req.query && req.query.page && req.query.pageSize) {
+    if(!req.query.pageNo) req.query.pageNo = 1;
+    if (!(/^[0-9]+$/.test(req.query.page)) || !(/^[0-9]+$/.test(req.query.pageSize)) || !(/^[0-9]+$/.test(req.query.pageNo))) {
+      JSONcallback(res, 400, {
+        msg: "Query should contain only alphanumeric characters!"
+      });
+      return;
+    }  
+    
+    console.log();
+    query.skip(req.query.page*req.query.pageSize);
+    query.limit(1*(req.query.pageSize)* (req.query.pageNo));
   }
 
   query.exec(function(err, comments){
@@ -97,7 +116,9 @@ module.exports.getAll = function(req, res) {
       JSONcallback(res, 500, err.message)
       return;
     } else {
-      JSONcallback(res, 200, comments);
+      console.log(comments.slice(1,2));
+      JSONcallback(res, 200, splitArr(comments, req.query.pageNo));
+
     }
   });
 };
@@ -345,7 +366,7 @@ module.exports.commentsCount = function(req, res){
   
   Comment
     .find(queryOptions)
-    .count()
+    .estimatedDocumentCount()
     .exec(function(error, response){
       if (error) {
         JSONcallback(res, 500, error.message);

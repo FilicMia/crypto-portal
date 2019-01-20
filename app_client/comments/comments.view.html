@@ -11,17 +11,17 @@
         or it will be removed by the administrator.
       </div>
   
-      <div class="container-article" ng-repeat="comment in vm.data.comments | filter:search:strict | filter:vm.q | startFrom:vm.currentPage*vm.pageSize | limitTo:vm.pageSize">
+      <div class="container-article" ng-repeat="comment in vm.data.comments | filter:search:strict| filter:vm.q | startFrom:0 | limitTo:vm.pageSize">
         <article class='row'>
           
           <comment onecomment='comment' onclickf='redirectTo(comment)'></comment>
 
         </article>
       </div>
-      <button ng-disabled="vm.currentPage == 0" ng-click="vm.getCommentsPage(vm.currentPage-1)">
+      <button ng-disabled="vm.currentPage == 0" ng-click="vm.previous()">
           Previous
       </button> {{vm.currentPage+1}}/{{vm.numberOfPages()}}
-      <button ng-disabled="vm.currentPage >= vm.getDataLength()/vm.pageSize - 1" ng-click="vm.getCommentsPage(vm.currentPage+1)">
+      <button ng-disabled="vm.currentPage >= vm.getDataLenght/vm.pageSize - 1" ng-click="vm.next()">
             Next
       </button>
   </section>
