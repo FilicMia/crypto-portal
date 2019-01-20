@@ -33,9 +33,11 @@
     };
     
     /* Returns a comments' page. */
-    var getCommentsPage = function(pageSpec) {
+    var getCommentsPage = function(page) {
       return $http.get('/api/comments', {
-        params: pageSpec
+        params: { 
+          page: page
+        }
       });
     }
 
