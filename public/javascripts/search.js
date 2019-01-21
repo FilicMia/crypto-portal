@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function(){
+/*document.addEventListener('DOMContentLoaded', function(){
     var btn = document.getElementById('search');
     btn.addEventListener('click', function(event) {
         //check input fields.
@@ -8,4 +8,4 @@ document.addEventListener('DOMContentLoaded', function(){
     });
     
     
-})
+})*/

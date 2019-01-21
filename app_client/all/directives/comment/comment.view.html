@@ -1,0 +1,32 @@
+<div class="col-md-2 col-sm-2 hidden-xs">
+  
+  <figure class="thumbnail">
+    <img class="img-responsive" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png" ng-hide='commentdirective.admin' />
+    <img class="img-responsive" src="/images/admin_icon1.png" ng-show='commentdirective.admin'/>
+    <figcaption class="text-center" ng-hide='commentdirective.admin'>{{ commentdirective.name }}</figcaption>
+    <figcaption class="text-center" ng-show='commentdirective.admin'>Admin</figcaption>
+  </figure>
+  
+</div>
+<div class="col-md-10 col-sm-10">
+  
+  <div class="panel panel-default arrow left">
+    <div class="panel-body" ng-click="onclick()" ng-style= "commentdirective.admin ? commdirvm.adminStyle : ''">
+      <header class="text-left">
+        <div class="comment-user"><i class="fa fa-user"></i>{{ commentdirective.name }}</div>
+        <time class="comment-date" datetime="16-12-2014 01:05">
+            <i class="fa fa-clock-o"></i> {{ commentdirective.date }}</time>
+      </header>
+      <div class="comment-post">
+        <p ng-bind-html="commentdirective.comment"></p>
+      </div>
+    </div>
+    <div class="panel-footer" ng-show='commdirvm.canDelete(commentdirective) && commdirvm.landing'>
+      <form class=" navbar-form navbar-left" ng-submit="commdirvm.deleteById(commentdirective._id)">
+        <button class="btn btn-default" id="delete" type="submit">Delete</button>
+      </form>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,77 @@
+<naviga></naviga>
+<div class="container">
+  <div class="alert alert-error alert-dismissible" ng-show='vm.error'>
+        {{vm.msg}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+  </div>
+  <div class="alert alert-warning alert-dismissible" ng-show='!vm.error && vm.msg'>
+         {{vm.msg}}
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+  </div>
+  <section class="comment-list">
+      <label for="filter">Search comments</label>
+      <input id="filter" type="text" name="filter" ng-model="search.name" placeholder='Enter username' ng-show='vm.getDataLenght() <= vm.pageSize'>
+      
+      <div ng-show='vm.getDataLenght() > vm.pageSize'>
+            <div class="input-group">
+              <input id="filter" type="text" name="filter" class="form-control" style="width:280px;max-width:280px;display:inline-block" ng-model="vm.searchname" placeholder='Enter username' aria-label="Username" aria-describedby="basic-addon2"/>
+            
+              <span class="input-group" style="margin-left:-8px;margin-top:-1px;min-height:36px;">
+                <button ng-click='vm.serverSearch(vm.searchname)' class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
+                <button ng-click='vm.cancelSearch()' class="btn btn-warning btn-outline-secondary" type="button">Cancel search</button>
+              </span>
+            </div>
+        </div>
+      </div>
+      
+      <div class="alert alert-warning" ng-hide='vm.logedin'>
+        Welcome to the CRYPTOGRAM official commenting page. 
+        To post a comment you need to login or register first.
+        After the first registration, you are able to login with the mail provided, 
+        at any time, and post a new comment. Comment's content should be somehow connected to the cryptogram portal
+        or it will be removed by the administrator.
+      </div>
+      
+  
+      <div class="container-article" ng-repeat="comment in vm.data.comments | filter:search:strict| filter:vm.q | startFrom: (vm.clientSide || vm.search) ? vm.currentPage*vm.pageSize : 0 | limitTo:vm.pageSize">
+        <article class='row'>
+          
+          <comment onecomment='comment' onclickf='redirectTo(comment)'></comment>
+
+        </article>
+      </div>
+      
+      <nav aria-label="..." ng-hide='!vm.numberOfPages()'>
+        <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="#" tabindex="-1" ng-disabled="vm.currentPage == 0" ng-click="vm.currentPage == 0 ? '': vm.previous()">Previous</a>
+            </li>
+            <!-- li class="page-item"><a class="page-link" href="#">{{vm.currentPage}}</a></li -->
+            <li class="page-item active">
+              <a class="page-link" href="#">{{vm.currentPage+1}}/{{vm.numberOfPages()}} <span class="sr-only">(current)</span></a>
+            </li>
+            <!-- li class="page-item"><a class="page-link" href="#">{{vm.currentPage+2}}</a></li -->
+            <li class="page-item">
+              <a class="page-link" href="#" tabindex="-1" ng-disabled="vm.currentPage + 1 >= vm.numberOfPages()" ng-click="vm.currentPage + 1 >= vm.numberOfPages() ? '': vm.next()">Next</a>
+            </li>
+        </ul>
+      </nav>
+  </section>
+  
+  <!-- show only to the logedin users -->
+  <div class="container" ng-show='vm.logedin && !vm.search'>
+    <div class="widget-area no-padding blank">
+        <div class="status-upload">
+            <form id="commentForma" ng-submit='vm.newComment()' role="form">
+                <div class="form-group"><label for="comment">Comment:</label><textarea class="form-control" rows="5" name="comment" id="comment" ng-model='vm.newcomment.comment'></textarea></div>
+                <button class="btn btn-success green" type="submit"><i class="fa fa-share"></i> Share</button></form>
+        </div>
+    </div>
+  </div>
+  <footos></footos>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/comments.css">
+</div>

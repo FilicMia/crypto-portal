@@ -1,3 +1,4 @@
+
 # Quick start
 
 ## Download the source code
@@ -53,7 +54,11 @@ $ mongoimport --db crypto-portal --collection Comments --mode upsert --upsertFie
 ~/workspace/crypto-portal (master) $ npm start
 ~~~~
 
-# Host on Heroku (by your account)
+# Host on Heroku
+
+This application is hosted on Heroku: [https://crypto-portal.herokuapp.com/](https://crypto-portal.herokuapp.com/)
+
+# Additional: Host on Heroku (by your account)
 
 ~~~~ {.bash}
 $ curl https://cli-assets.heroku.com/install.sh | sh
