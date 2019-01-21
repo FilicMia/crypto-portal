@@ -9,7 +9,7 @@ var JSONcallback = function(res, status, msg) {
 };
 
 var decodeAndVerify = function(req, res){
-    var authorization = req.headers.Authorization,
+    var authorization = req.headers.authorization,
             decoded;
         authorization = authorization.split(' ')[1];
         try {
@@ -239,11 +239,12 @@ module.exports.getCommentById = function(req, res) {
 module.exports.deleteCommentById = function(req, res) {
     //get header auth token.
     var decoded;
-    if (!req.headers || !req.headers.Authorization) {
+    if (!req.headers || !req.headers.authorization) {
+        if(!decoded) return JSONcallback(res,401,{msg: 'Unauthorized'});
+    } else {
         decoded = decodeAndVerify(req, res);
         if(!decoded) return JSONcallback(res,401,{msg: 'Unauthorized'});
     }
-    console.log(decoded);
     
     //check for params
     if (!req.params|| !req.params.idComment){

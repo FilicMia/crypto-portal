@@ -28,11 +28,13 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
        commentsData.newComment(vm.newcomment).then(
           function succes(response){
             vm.msg = response.data.length > 0 ? "" : "No comments.";
-            vm.data.comments.push(response.data);
+            if(vm.currentPage == 0){
+              vm.data.comments.unshift(response.data);
+              vm.data.cached.slice(-1)[0].unshift(vm.data.comments.slice(-1));
+            }
             vm.data.cached
             vm.newcomment.name = '';
             vm.newcomment.comment = '';
-            //console.log(vm.data);
           },
           function error(response){
             vm.msg = "Error while fetching comments.";
