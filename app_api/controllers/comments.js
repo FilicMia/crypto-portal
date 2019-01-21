@@ -180,8 +180,8 @@ module.exports.createNew = function(req, res) {
 };
 
 module.exports.getCommentByName = function(req, res) {
-    
-    if(!req.params || !req.query.name){
+
+    if(!req.query || !req.query.name){
         JSONcallback(res, 400, {
           msg: "No query atribute. Malformed request"
         });

@@ -17,7 +17,7 @@ router.post('/comments/new', authentication, ctrComments.createNew);
 router.post('/comments/edit/:idComment', authentication,
                 ctrComments.editComment);
 router.get('/comments/:idComment', ctrComments.getCommentById);
-router.get('/comments/search', ctrComments.getCommentByName);
+router.get('/search/comments', ctrComments.getCommentByName);
 router.delete('/comments/:idComment', authentication,
         ctrComments.deleteCommentById);
         

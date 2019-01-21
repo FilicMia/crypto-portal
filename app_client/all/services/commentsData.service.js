@@ -9,6 +9,12 @@
       return $http.get('/api/comments/' + commentId);
     };
     
+    var commentByUsername = function(username){
+      return $http.get('/api/search/comments',{
+        params: { name: username }
+      });
+    };
+    
     var editCommentById = function(id, comment) {
       return $http.post('/api/comments/edit/' + id, comment, {
         headers: {
@@ -37,13 +43,13 @@
       return $http.get('/api/comments', {
         params: pageSpec
       });
-    }
+    };
 
     /* Returns number of pages and comments. */
     var getCommentsCount = function(search) {
       return $http.get('/api/comments-count', {
       });
-    }
+    };
   
     return {
       'comments': data,
@@ -52,7 +58,8 @@
       'deleteById': deleteById,
       'newComment': newComment,
       'getCommentsPage': getCommentsPage,
-      'getCommentsCount': getCommentsCount
+      'getCommentsCount': getCommentsCount,
+      'commentByUsername': commentByUsername
     };
   }
   commentsData.$inject = ['$http', 'authentication'];
