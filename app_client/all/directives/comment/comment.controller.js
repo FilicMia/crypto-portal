@@ -26,6 +26,9 @@
         }
       );
     };
+    
+    //////////style////////////
+    commdirvm.adminStyle = {'background-color':'lightblue'}
   }
   
   commentDirCtrl.$inject = ['$scope','authentication', 'commentsData', 

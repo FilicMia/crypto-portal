@@ -295,7 +295,7 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
       refreshPage(vm.currentPage);
     }
         
-};
+}
 
 commentsCtrl.$inject = ['commentsData', '$location', '$scope', 'authentication', '$filter'];
 
