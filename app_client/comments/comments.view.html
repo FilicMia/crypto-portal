@@ -17,9 +17,15 @@
       <input id="filter" type="text" name="filter" ng-model="search.name" placeholder='Enter username' ng-show='vm.getDataLenght() <= vm.pageSize'>
       
       <div ng-show='vm.getDataLenght() > vm.pageSize'>
-        <input id="filter" type="text" name="filter" ng-model="vm.searchname" placeholder='Enter username'>
-        <button ng-click='vm.serverSearch(vm.searchname)'><i class="fa fa-search"></i></button>
-        <button ng-click='vm.cancelSearch()' class="btn btn-warning">Cancel search</button>
+            <div class="input-group">
+              <input id="filter" type="text" name="filter" class="form-control" style="width:280px;max-width:280px;display:inline-block" ng-model="vm.searchname" placeholder='Enter username' aria-label="Username" aria-describedby="basic-addon2"/>
+            
+              <span class="input-group" style="margin-left:-8px;margin-top:-1px;min-height:36px;">
+                <button ng-click='vm.serverSearch(vm.searchname)' class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
+                <button ng-click='vm.cancelSearch()' class="btn btn-warning btn-outline-secondary" type="button">Cancel search</button>
+              </span>
+            </div>
+        </div>
       </div>
       
       <div class="alert alert-warning" ng-hide='vm.logedin'>
