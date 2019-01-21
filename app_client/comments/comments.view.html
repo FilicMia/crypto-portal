@@ -1,10 +1,16 @@
 <naviga></naviga>
 <div class="container">
-  <div class="alert alert-warning alert-dismissible fade show" ng-show='vm.error' ng-model='vm.msg'>
-        
+  <div class="alert alert-error alert-dismissible" ng-show='vm.error'>
+        {{vm.msg}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
   </div>
-  <div class="alert alert-warning alert-dismissible fade show" ng-show='!vm.error && vm.msg' ng-model='vm.msg'>
-        
+  <div class="alert alert-warning alert-dismissible" ng-show='!vm.error && vm.msg'>
+         {{vm.msg}}
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
   </div>
   <section class="comment-list">
       <label for="filter">Search comments</label>
@@ -33,7 +39,7 @@
         </article>
       </div>
       
-      <nav aria-label="...">
+      <nav aria-label="..." ng-hide='!vm.numberOfPages()'>
         <ul class="pagination">
             <li class="page-item">
               <a class="page-link" href="#" tabindex="-1" ng-disabled="vm.currentPage == 0" ng-click="vm.currentPage == 0 ? '': vm.previous()">Previous</a>
@@ -51,7 +57,7 @@
   </section>
   
   <!-- show only to the logedin users -->
-  <div class="container" ng-show='vm.logedin'>
+  <div class="container" ng-show='vm.logedin && !vm.search'>
     <div class="widget-area no-padding blank">
         <div class="status-upload">
             <form id="commentForma" ng-submit='vm.newComment()' role="form">

@@ -7,7 +7,7 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
   vm.logedin = authentication.logedin();
   vm.user = authentication.currUser();
   
-          /////////////////PAGINATION////////////////////////
+    /////////////////PAGINATION////////////////////////
     vm.currentPage = 0;
     vm.currentPageCached = 0;
     vm.pageSize = 10;
@@ -186,7 +186,6 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
             function error(response){
               vm.error = true;
               vm.msg = "Error while fetching comments.";
-              console.log(response.e);
         });
       
     };
@@ -221,17 +220,21 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
       }
       
       vm.data.comments = vm.data.cached[vm.data.cacheIndexnextPage];
-      
-      //remove first
-      vm.data.cached.shift();
-      
-      //
-      vm.data.cached.push([]);
-      getAndChangeNext();
+      if(vm.data.comments.length > 0){
+        //remove first
+        vm.data.cached.shift();
+        
+        //
+        vm.data.cached.push([]);
+        getAndChangeNext();
+      } else {
+        refreshPage(vm.currentPage);
+      }
+    
     };
     
     vm.previous = function() {
-
+      
       vm.currentPage = vm.currentPage - 1;
       if(vm.clientSide || vm.search) {
         return;
@@ -239,12 +242,16 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
       
       vm.data.comments = vm.data.cached[vm.data.cacheIndexprevPage];
       
-      //remove last
-      vm.data.cached.pop();
-      
-      //
-      vm.data.cached.unshift([]);
-      getAndChangePrevExtra();
+      if(vm.data.comments.length > 0){
+        //remove last
+        vm.data.cached.pop();
+        
+        //
+        vm.data.cached.unshift([]);
+        getAndChangePrevExtra();
+      } else {
+        refreshPage(vm.currentPage);
+      }
     };
     
     vm.serverSearch = function(username){
@@ -269,7 +276,9 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
     };
     
     vm.cancelSearch = function(){
-      vm.msg = "Server s. canceled.";
+      if(!vm.search) return;
+      
+      vm.msg = "Search is canceled. You can now add comment.";
       vm.searchname ='';
       vm.search = false;
       
