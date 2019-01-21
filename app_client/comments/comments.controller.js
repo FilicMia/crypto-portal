@@ -6,7 +6,18 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
   
   vm.logedin = authentication.logedin();
   vm.user = authentication.currUser();
-    
+  
+          /////////////////PAGINATION////////////////////////
+    vm.currentPage = 0;
+    vm.pageSize = 10;
+    vm.q = '';
+    vm.dataSize = 0;
+    vm.data = {};
+    vm.data.comments = [];
+    vm.data.count = {};
+    vm.data.cached = [];
+     //////////////////////////////////////////
+     
     vm.newComment = function(){
       //name: req.body.name,
        //   comment: req.body.comment,
@@ -18,9 +29,10 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
           function succes(response){
             vm.msg = response.data.length > 0 ? "" : "No comments.";
             vm.data.comments.push(response.data);
+            vm.data.cached
             vm.newcomment.name = '';
             vm.newcomment.comment = '';
-            console.log(vm.data);
+            //console.log(vm.data);
           },
           function error(response){
             vm.msg = "Error while fetching comments.";
@@ -34,14 +46,6 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
         };
         
         /////////////////PAGINATION////////////////////////
-    vm.currentPage = 0;
-    vm.pageSize = 10;
-    vm.q = '';
-    vm.dataSize = 0;
-    vm.data = {};
-    vm.data.comments = [];
-    vm.data.count = {};
-    vm.data.cached = [];
     
     commentsData.getCommentsCount().then(
       function succes(response){
@@ -56,7 +60,7 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
       return $filter('filter')(vm.data.comments, vm.q)
     }
     
-    vm.getDataLength = function() {
+    vm.getDataLenght = function() {
       return vm.data.count.size;
     }
   
@@ -76,7 +80,7 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
         }).then(
             function succes(response){
               vm.data.cached = response.data;//each page is separately send
-              
+              console.log(vm.getDataLenght()/vm.pageSize - 1);
             },
             function error(response){
               //vm.msg = "Error while fetching comments.";

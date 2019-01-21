@@ -21,7 +21,7 @@
       <button ng-disabled="vm.currentPage == 0" ng-click="vm.previous()">
           Previous
       </button> {{vm.currentPage+1}}/{{vm.numberOfPages()}}
-      <button ng-disabled="vm.currentPage >= vm.getDataLenght/vm.pageSize - 1" ng-click="vm.next()">
+      <button ng-disabled="vm.currentPage >= vm.getDataLenght()/vm.pageSize - 1" ng-click="vm.next()">
             Next
       </button>
 

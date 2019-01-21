@@ -8,7 +8,7 @@ var JSONcallback = function(res, status, msg) {
 };
 
 var decodeAndVerify = function(req, res){
-    var authorization = req.headers.authorization,
+    var authorization = req.headers.Authorization,
             decoded;
         authorization = authorization.split(' ')[1];
         try {
@@ -23,7 +23,7 @@ var decodeAndVerify = function(req, res){
 
 module.exports.getAll = function(req, res) {
     //get header auth token.
-    if (req.headers && req.headers.authorization) {
+    if (req.headers && req.headers.Authorization) {
         var decoded = decodeAndVerify(req, res);
         if(!decoded || !decoded.admin) return JSONcallback(res,401,{msg: 'Unauthorized'});
         
@@ -41,7 +41,7 @@ module.exports.getAll = function(req, res) {
 
 module.exports.getUserById = function(req, res) {
         //get header auth token.
-    if (req.headers && req.headers.authorization) {
+    if (req.headers && req.headers.Authorization) {
         var decoded = decodeAndVerify(req, res);
         if(!decoded || !decoded.admin) return JSONcallback(res,401,{msg: 'Unauthorized'});
         
@@ -72,7 +72,7 @@ module.exports.getUserById = function(req, res) {
 };
 
 module.exports.deleteUserById = function(req, res) {
-    if (req.headers && req.headers.authorization) {
+    if (req.headers && req.headers.Authorization) {
         var decoded = decodeAndVerify(req, res);
         if(!decoded || !decoded.admin) return JSONcallback(res,401,{msg: 'Unauthorized'});
         

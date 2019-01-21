@@ -9,7 +9,7 @@ var JSONcallback = function(res, status, msg) {
 };
 
 var decodeAndVerify = function(req, res){
-    var authorization = req.headers.authorization,
+    var authorization = req.headers.Authorization,
             decoded;
         authorization = authorization.split(' ')[1];
         try {
@@ -21,7 +21,7 @@ var decodeAndVerify = function(req, res){
         return decoded;
 };
 
-var createComment = function(req,res,user,datatime){
+var createComment = function(req,res,user,datatime, currpage= null){
     /*
         The .save() is an instance method of the model, while the 
         .create() is called directly from the Model as a method call, 
@@ -53,7 +53,9 @@ var createComment = function(req,res,user,datatime){
                         
                     }
                     console.log(comment, " is added to the list of your comments");
+                    
                     JSONcallback(res, 201, comment);
+                    
                 });
         }
     });
@@ -95,7 +97,7 @@ function splitArr(arr, n) {
 module.exports.getAll = function(req, res) {
   var query = Comment.find();
 
-  query.sort( {createdAt: -1} );
+  query.sort( {date: -1} );
   
   if(req.query && req.query.page && req.query.pageSize) {
     if(!req.query.pageNo) req.query.pageNo = 1;
@@ -106,7 +108,6 @@ module.exports.getAll = function(req, res) {
       return;
     }  
     
-    console.log();
     query.skip(req.query.page*req.query.pageSize);
     query.limit(1*(req.query.pageSize)* (req.query.pageNo));
   }
@@ -116,7 +117,7 @@ module.exports.getAll = function(req, res) {
       JSONcallback(res, 500, err.message)
       return;
     } else {
-      console.log(comments.slice(1,2));
+      //console.log(comments.slice(1,2));
       JSONcallback(res, 200, splitArr(comments, req.query.pageNo));
     }
   });
@@ -238,10 +239,11 @@ module.exports.getCommentById = function(req, res) {
 module.exports.deleteCommentById = function(req, res) {
     //get header auth token.
     var decoded;
-    if (!req.headers || !req.headers.authorization) {
+    if (!req.headers || !req.headers.Authorization) {
         decoded = decodeAndVerify(req, res);
         if(!decoded) return JSONcallback(res,401,{msg: 'Unauthorized'});
     }
+    console.log(decoded);
     
     //check for params
     if (!req.params|| !req.params.idComment){
