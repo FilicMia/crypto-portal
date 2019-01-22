@@ -22,6 +22,7 @@ function commentsCtrl(commentsData, $location, $scope, authentication, $filter) 
     vm.data.cacheIndexcurrPage = 2;
     vm.data.cacheIndexnextPage = 3;
     
+    // TODO greater cache limit, i.e. 20pages.
     vm.cacheLimit = 4;
      //////////////////////////////////////////
     // server side search activated.
