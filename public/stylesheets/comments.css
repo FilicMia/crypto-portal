@@ -10,8 +10,15 @@ body{ background: #fafafa;}
     -o-box-shadow: none;
     box-shadow: none;
 }
+
+
 body .no-padding {
     padding: 0;
+}
+
+.container-article, .comment-list, .pagination, footer {
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 p{
